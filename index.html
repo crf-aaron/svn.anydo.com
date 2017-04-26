@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>要修正的地图</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="public/admin/static/plugin/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!--<link rel="stylesheet" href="public/admin/static/css/jquery-jvectormap-1.2.2.css"/>-->
+    <link rel="stylesheet" href="public/admin/static/css/jquery-jvectormap.css"/>
+
+    <link rel="stylesheet" href="public/admin/static/css/EhgoApi.min.css">
+    <link rel="stylesheet" href="public/admin/static/css/skins/_all-skins.min.css">
+    
+    <style>
+        body{font-family: "Microsoft YaHei",FontAwesome,sans-serif;}
+		.builder-data-empty {margin-bottom: 20px;background-color: #f9f9f9;}
+        .no-data {padding: 130px 0;color: #555;}
+        .am-text-center {text-align: center !important;}
+        a{cursor:pointer;}
+
+
+        /*delay*/
+        .info-box-rotate0 i {
+          animation: iconRotate 2s infinite;
+          -webkit-animation: iconRotate 2s infinite;
+          -moz-animation: iconRotate 2s infinite;
+          -ms-animation: iconRotate 2s infinite;
+          -o-animation: iconRotate 2s infinite;
+        }
+        .info-box-rotate1 i {
+          animation: iconRotate 2s infinite;
+          -webkit-animation: iconRotate 2s 2s infinite;
+          -moz-animation: iconRotate 2s 2s infinite;
+          -ms-animation: iconRotate 2s 2s infinite;
+          -o-animation: iconRotate 2s 2s infinite;
+        }
+        .info-box-rotate2 i {
+          animation: iconRotate 2s infinite;
+          -webkit-animation: iconRotate 2s 4s infinite;
+          -moz-animation: iconRotate 2s 4s infinite;
+          -ms-animation: iconRotate 2s 4s infinite;
+          -o-animation: iconRotate 2s 4s infinite;
+        }
+        .info-box-rotate3 i {
+          animation: iconRotate 2s 6s infinite;
+          -webkit-animation: iconRotate 2s 6s infinite;
+          -moz-animation: iconRotate 2s 6s infinite;
+          -ms-animation: iconRotate 2s 6s infinite;
+          -o-animation: iconRotate 2s 6s infinite;
+        }
+        @keyframes iconRotate
+        {
+          from {transform: rotate(0deg);}
+          to {transform: rotate(180deg);}
+        }
+        @-webkit-keyframes iconRotate
+        {
+          from {-webkit-transform: rotate(0deg);}
+          to {-webkit-transform: rotate(180deg);}
+        }
+        @-moz-keyframes iconRotate
+        {
+          from {-moz-transform: rotate(0deg);}
+          to {-moz-transform: rotate(180deg);}
+        }
+        @-ms-keyframes iconRotate
+        {
+          from {-ms-transform: rotate(0deg);}
+          to {-ms-transform: rotate(180deg);}
+        }
+        @-o-keyframes iconRotate
+        {
+          from {-o-transform: rotate(0deg);}
+          to {-o-transform: rotate(180deg);}
+        }
+
+    </style>
+    
+    <!--[if lt IE 9]>
+    <script src="public/admin/static/plugin/compatible/html5shiv.js"></script>
+    <script src="public/admin/static/plugin/compatible/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini fixed sidebar-collapse">
+
+  <!--顶部banner-->
+  <header class="main-header">
+
+    <nav class="navbar navbar-static-top">
+
+
+      <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+          <!--ehgo Messages: style can be found in dropdown.less-->
+          <li class="dropdown messages-menu">
+            <!-- Menu toggle button -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-envelope-o"></i>
+              <span class="label label-success" id="newsms">1</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">您有 1 条新消息</li>
+              <li>
+                <!-- inner menu: contains the messages -->
+                <ul class="menu">
+                  <li><!-- start message -->
+                    <a href="#" data-toggle="modal" data-target="#mySMS">
+                      <div class="pull-left">
+                        <!-- User Image -->
+                        <img src="/public/admin/static/img/tang.jpg" class="img-circle" alt="User Image">
+                      </div>
+                      <!-- Message title and timestamp -->
+                      <h4>OSTA新学员侦测启动<small><i class="fa fa-clock-o"></i> 5 mins</small></h4>
+                      <!-- The message -->
+                      <p>API开发完毕，正在联系颜总将源码接入。</p>
+                    </a>
+                  </li>
+                  <!-- end message -->
+                </ul>
+                <!-- /.menu -->
+              </li>
+              <li class="footer"><a href="#">查看其它信息</a></li>
+            </ul>
+          </li>
+          <!--ehgo /.messages-menu -->
+          <!-- Notifications Menu -->
+          <li class="dropdown notifications-menu">
+            <!-- Menu toggle button -->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <i class="fa fa-bell-o"></i>
+              <span class="label label-warning" id="newts">1</span>
+            </a>
+            <ul class="dropdown-menu">
+              <li class="header">你有 1 条系统提示</li>
+              <li>
+                <!-- Inner Menu: contains the notifications -->
+                <ul class="menu">
+                  <li><!-- start notification -->
+                    <a href="#" class="newtstxt"><i class="fa fa-users text-aqua"></i> 5 new students joined today.</a>
+                  </li>
+                  <!-- end notification -->
+                </ul>
+              </li>
+              <li class="footer"><a href="#">查看所有</a></li>
+            </ul>
+          </li>
+          <li class="dropdown user user-menu">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+              <img src="/public/admin/static/img/admin.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs">ehgo</span>
+            </a>
+            <ul class="dropdown-menu">
+              <!-- User image -->
+              <li class="user-header">
+                <img src="/public/admin/static/img/logo.jpg" class="img-circle" alt="User Image">
+
+                <p>
+                  ehgo - 系统管理员                                        <small>注册时间：2017-04-18</small>
+                </p>
+              </li>
+              <!-- Menu Footer-->
+              <li class="user-footer">
+                <div class="pull-left">
+                  <a url="/user/edit.html" class="refresh btn btn-default btn-flat">修改信息</a>
+                </div>
+                <div class="pull-right">
+                  <a href="/user/logout.html" class="btn btn-default btn-flat">退出登录</a>
+                </div>
+              </li>
+            </ul>
+          </li>
+          <li>
+            <!--a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a-->
+          </li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div class="content-wrapper">
+
+            <section class="content" id="content">
+
+
+              <!-- Info boxes -->
+              <div class="row">
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="icon ion-speedometer"></i></span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-text">本服务器监测 <img src="http://svn.anydo.com/public/admin/static/img/ing.gif" width="8" height="8"></span>
+                      <span class="info-box-text">CPU Traffic: 36 %</span>
+                      <span class="info-box-text">RAM Usage: 44 %</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                  <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="icon ion-wifi"></i></span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-text"><small>OSTA平台监测</small> <img id="ostajc" src="http://svn.anydo.com/public/admin/static/img/ing.gif" width="8" height="8"></span>
+                      <span class="info-box-text">Response: OK</span>
+                      <span class="info-box-text">Api Export: Fail</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                  <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+
+                <!-- fix for small devices only -->
+                <div class="clearfix visible-sm-block"></div>
+
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="icon ion-person-add"></i></span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-text">新增报名</span>
+                      <span class="info-box-number">160</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                  <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-3 col-sm-6 col-xs-12">
+                  <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="icon ion-ios-people-outline"></i></span>
+
+                    <div class="info-box-content">
+                      <span class="info-box-text">共计学员</span>
+                      <span class="info-box-number">2,000</span>
+                    </div>
+                    <!-- /.info-box-content -->
+                  </div>
+                  <!-- /.info-box -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">半年报告</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <div class="btn-group">
+                  <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-wrench"></i></button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                  </ul>
+                </div>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-8">
+                  <p class="text-center">
+                    <strong>Sales: 1 Jan, 2017 - 30 Jul, 2017</strong>
+                  </p>
+
+                  <div class="chart">
+                    <!-- Sales Chart Canvas -->
+                    <canvas id="salesChart" style="height: 180px;"></canvas>
+                  </div>
+                  <!-- /.chart-responsive -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-4">
+                  <p class="text-center">
+                    <strong>半年目标</strong>
+                  </p>
+
+                  <div class="progress-group">
+                    <span class="progress-text">新客户开拓</span>
+                    <span class="progress-number"><b>160</b>/200</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-aqua" style="width: 80%"></div>
+                    </div>
+                  </div>
+                  <!-- /.progress-group -->
+                  <div class="progress-group">
+                    <span class="progress-text">新学员报考</span>
+                    <span class="progress-number"><b>31000</b>/40000</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-red" style="width: 80%"></div>
+                    </div>
+                  </div>
+                  <!-- /.progress-group -->
+                  <div class="progress-group">
+                    <span class="progress-text">渠道回款</span>
+                    <span class="progress-number"><b>4800000</b>/8000000</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-green" style="width: 80%"></div>
+                    </div>
+                  </div>
+                  <!-- /.progress-group -->
+                  <div class="progress-group">
+                    <span class="progress-text">继续教育</span>
+                    <span class="progress-number"><b>250000</b>/500000</span>
+
+                    <div class="progress sm">
+                      <div class="progress-bar progress-bar-yellow" style="width: 80%"></div>
+                    </div>
+                  </div>
+                  <!-- /.progress-group -->
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- ./box-body -->
+            <div class="box-footer">
+              <div class="row">
+                <div class="col-sm-3 col-xs-6">
+                  <div class="description-block border-right">
+                    <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 17%</span>
+                    <h5 class="description-header">￥35,210000.43</h5>
+                    <span class="description-text">总收入</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-3 col-xs-6">
+                  <div class="description-block border-right">
+                    <span class="description-percentage text-yellow"><i class="fa fa-caret-left"></i> 0%</span>
+                    <h5 class="description-header">￥1000,390.90</h5>
+                    <span class="description-text">总成本</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-3 col-xs-6">
+                  <div class="description-block border-right">
+                    <span class="description-percentage text-green"><i class="fa fa-caret-up"></i> 20%</span>
+                    <h5 class="description-header">￥24000,813.53</h5>
+                    <span class="description-text">总利润</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+                <!-- /.col -->
+                <div class="col-sm-3 col-xs-6">
+                  <div class="description-block">
+                    <span class="description-percentage text-red"><i class="fa fa-caret-down"></i> 18%</span>
+                    <h5 class="description-header">78%</h5>
+                    <span class="description-text">目标完成</span>
+                  </div>
+                  <!-- /.description-block -->
+                </div>
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.box-footer -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+      <!-- Main row -->
+      <div class="row">
+        <!-- Left col -->
+        <div class="col-md-8">
+          <!-- MAP & BOX PANE -->
+          <div class="box box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">区域报告</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="row">
+                <div class="col-md-9 col-sm-8">
+                  <div class="pad">
+                    <!-- Map will be created here -->
+                    <div id="world-map-markers" style="height: 345px;"></div>
+                  </div>
+                </div>
+                <!-- /.col -->
+                <div class="col-md-3 col-sm-4">
+                  <div class="pad box-pane-right bg-green" style="min-height: 280px">
+                    <div class="description-block margin-bottom">
+                      <div class="sparkbar pad" data-color="#fff">90,70,90,70,75,80,70</div>
+                      <h5 class="description-header">8390</h5>
+                      <span class="description-text">AIFM</span>
+                    </div>
+                    <!-- /.description-block -->
+                    <div class="description-block margin-bottom">
+                      <div class="sparkbar pad" data-color="#fff">90,50,90,70,61,83,63</div>
+                      <h5 class="description-header">30%</h5>
+                      <span class="description-text">IFM</span>
+                    </div>
+                    <!-- /.description-block -->
+                    <div class="description-block">
+                      <div class="sparkbar pad" data-color="#fff">90,50,90,70,61,83,63</div>
+                      <h5 class="description-header">70%</h5>
+                      <span class="description-text">SIFM</span>
+                    </div>
+                    <!-- /.description-block -->
+                  </div>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+
+          <!-- TABLE: LATEST ORDERS -->
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">最新订单</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-responsive">
+                <table class="table no-margin">
+                  <thead>
+                  <tr>
+                    <th>订单号</th>
+                    <th>详情</th>
+                    <th>状态</th>
+                    <th>考试</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR9842</a></td>
+                    <td>张三报考IFM</td>
+                    <td><span class="label label-success">未处理</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#00a65a" data-height="20">90,80,90,-70,61,-83,63</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                    <td>李四通过上海报考点报考IFM </td>
+                    <td><span class="label label-warning">已受理</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                    <td>赵五通过广东报考点报考SIFM</td>
+                    <td><span class="label label-danger">未通过</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#f56954" data-height="20">90,-80,90,70,-61,83,63</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR7429</a></td>
+                    <td>小明也要报考</td>
+                    <td><span class="label label-info">已获证</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#00c0ef" data-height="20">90,80,-90,70,-61,83,63</div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a href="pages/examples/invoice.html">OR1848</a></td>
+                    <td>刘二报考AIFM</td>
+                    <td><span class="label label-warning">年审中</span></td>
+                    <td>
+                      <div class="sparkbar" data-color="#f39c12" data-height="20">90,80,-90,70,61,-83,68</div>
+                    </td>
+                  </tr>
+
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <a href="javascript:void(0)" class="btn btn-sm btn-info btn-flat pull-left">导入EXCEL</a>
+              <a href="javascript:void(0)" class="btn btn-sm btn-default btn-flat pull-right">导出EXCEL</a>
+            </div>
+            <!-- /.box-footer -->
+          </div>
+          <!-- /.box -->
+        </div>
+        <!-- /.col -->
+
+        <div class="col-md-4">
+		          <!-- /.info-box -->
+          <div class="info-box bg-aqua">
+            <span class="info-box-icon"><i class="ion-ios-chatbubble-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">询盘人次</span>
+              <span class="info-box-number">163,921</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: 40%"></div>
+              </div>
+                  <span class="progress-description">
+                    40% Increase in 30 Days
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+		          <!-- /.info-box -->
+          <div class="info-box bg-green">
+            <span class="info-box-icon"><i class="ion ion-ios-heart-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">报考意向</span>
+              <span class="info-box-number">12,050</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: 20%"></div>
+              </div>
+                  <span class="progress-description">
+                    20% Increase in 30 Days
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->  
+		           
+          <!-- Info Boxes Style 2 -->
+          <div class="info-box bg-yellow">
+            <span class="info-box-icon"><i class="icon ion-ios-book-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">报考人数</span>
+              <span class="info-box-number">8,200</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: 50%"></div>
+              </div>
+                  <span class="progress-description">
+                    50% Increase in 30 Days
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+
+ <div class="info-box bg-red">
+            <span class="info-box-icon"><i class="icon ion-university"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">获证人数</span>
+              <span class="info-box-number">4,381</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: 70%"></div>
+              </div>
+                  <span class="progress-description">
+                    70% Increase in 30 Days
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+
+          <div class="box box-default">
+            <div class="box-header with-border">
+              <h3 class="box-title">数据饼图</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="row">
+                <div class="col-md-8">
+                  <div class="chart-responsive">
+                    <canvas id="pieChart" height="150"></canvas>
+                  </div>
+                  <!-- ./chart-responsive -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-4">
+                  <ul class="chart-legend clearfix">
+                    <li><i class="fa fa-circle-o text-red"></i> 上海</li>
+                    <li><i class="fa fa-circle-o text-green"></i> 广东</li>
+                    <li><i class="fa fa-circle-o text-yellow"></i> 北京</li>
+                    <li><i class="fa fa-circle-o text-aqua"></i> 福建</li>
+                    <li><i class="fa fa-circle-o text-light-blue"></i> 江苏</li>
+                    <li><i class="fa fa-circle-o text-gray"></i> 深圳</li>
+                  </ul>
+                </div>
+                <!-- /.col -->
+              </div>
+              <!-- /.row -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer no-padding">
+              <ul class="nav nav-pills nav-stacked">
+                <li><a href="#">直接客户
+                  <span class="pull-right text-red"><i class="fa fa-angle-down"></i> 12%</span></a></li>
+                <li><a href="#">网络广告 <span class="pull-right text-green"><i class="fa fa-angle-up"></i> 4%</span></a>
+                </li>
+                <li><a href="#">转介绍
+                  <span class="pull-right text-yellow"><i class="fa fa-angle-left"></i> 0%</span></a></li>
+              </ul>
+            </div>
+            <!-- /.footer -->
+          </div>
+          <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->            </section>
+
+
+    <script src="public/admin/static/plugin/jQuery/jquery.min.js"></script>
+    <!--<script src="public/admin/static/plugin/jQuery/jquery-2.2.3.min.js"></script>-->
+    <script src="public/admin/static/plugin/bootstrap/js/bootstrap.min.js"></script>
+    <script src="public/admin/static/plugin/fastClick/fastclick.js"></script>
+    <script src="public/admin/static/plugin/slimScroll/jquery.slimscroll.min.js"></script>
+    <script src="public/admin/static/plugin/bootBox/bootbox.min.js"></script>
+    <script src="public/admin/static/js/app.min.js"></script>
+    <script src="public/admin/static/js/demo.js"></script>
+    <script src="public/admin/static/plugin/sparkline/jquery.sparkline.min.js"></script>
+    <!--<script src="public/admin/static/plugin/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>-->
+    <script src="public/admin/static/plugin/jvectormap/jquery-jvectormap.js"></script>
+    <script src="public/admin/static/plugin/jvectormap/jquery-jvectormap-cn-mill-en.js"></script>
+    <script src="public/admin/static/plugin/chartjs/Chart.min.js"></script>
+
+      <script>
+        var JS_PATH = '__JS__';
+        var CSS_PATH = '__CSS__';
+        var STATIC_PATH = '__STATIC__';
+        var IMG_PATH = '__IMG__';
+        var PLUGIN_PATH = '__PLUGIN__';
+        var COMPANY_NAME = '{:config("COMPANY_NAME")}';
+
+        //OSTA运行监测
+        function imgjc() {
+          var img = new Image();
+          img.onload = function() {
+            $.alertMsg('OSTA运行正常');
+          };
+          img.onerror = function() {
+            $.alertMsg('警告：OSTA运行不正常');
+            $("#ostajc").attr('src','http://svn.anydo.com/public/admin/static/img/xx.gif');
+          }
+          img.src = 'http://osta.icad.org.cn/SAAS/commons/images/but1.gif';
+        }
+        imgjc();
+
+        /*每30s自动检测OSTA运行情况*/
+        setInterval(function () {
+          var img = new Image();
+          img.onload = function() {
+//            $('.info-box-icon>i').eq(0).removeClass('ion-speedometer').addClass('fa fa-spin fa-spinner').delay(2000).removeClass('fa fa-spin fa-spinner').addClass('ion-speedometer');
+            $('.info-box-icon>i').eq(0).toggleClass('fa fa-spin fa-spinner ion-speedometer');
+            $('.info-box-icon>i').eq(1).toggleClass('fa fa-spin fa-spinner ion-wifi');
+            $('.info-box-icon>i').eq(2).toggleClass('fa fa-spin fa-spinner ion-person-add');
+            $('.info-box-icon>i').eq(3).toggleClass('fa fa-spin fa-spinner ion-ios-people-outline');
+            $('.info-box').eq(0).toggleClass('info-box-rotate0');
+            $('.info-box').eq(1).toggleClass('info-box-rotate1');
+            $('.info-box').eq(2).toggleClass('info-box-rotate2');
+            $('.info-box').eq(3).toggleClass('info-box-rotate3');
+          };
+          img.onerror = function() {
+            $.alertMsg('警告：OSTA运行不正常');
+            $("#ostajc").attr('src','http://svn.anydo.com/public/admin/static/img/xx.gif');
+          }
+          img.src = 'http://osta.icad.org.cn/SAAS/commons/images/but1.gif';
+        }, 8000);
+
+
+
+        /**
+         * 自动适配面包屑导航
+         */
+        $('body').on('click', '.menuChild', function() {
+          $('.menuChild').removeClass('active');
+          $(this).addClass('active');
+          var parentName = $.trim($(this).parent().prev().text());
+          var ownName = $(this).children('a').text();
+          var breadcrumb = $('#breadcrumb');
+          breadcrumb.html('<li><i class="fa fa-dashboard"></i>　首页</li>');
+          breadcrumb.append('<li>'+ parentName +'</li><li>'+ ownName +'</li>');
+          breadcrumb.prev().text(ownName);
+        });
+
+        //ajax备用
+        var imgurl = 'http://osta.icad.org.cn/SAAS/commons/images/but1.gif';
+        if (imgurl == '') {
+          // 设置Ajax请求超时时间为1s钟
+          $.ajax(imgurl, {
+            type: 'get',
+            timeout: 1000,
+            success: function() {
+              alert("请求成功");
+            },
+            error: function() {
+              alert("请求失败");
+            }
+          });
+        }
+
+        $(function() {
+          $('#mySMS').on('hide.bs.modal',function() {$("#newsms").hide();});
+          $('.newtstxt').on('click',function() {$("#newts").hide();});
+        });
+      </script>
+
+
+
+            <script src="public/admin/static/js/template.js"></script>
+	<script src="public/admin/static/js/pages/dashboard2.js"></script>
+
+</body>
+</html>
